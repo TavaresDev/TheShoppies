@@ -6,15 +6,6 @@ body{
 }
 
 
-
-.itemChecked {
-  text-decoration: line-through;
-  background-color: gray;
-}
-.thisItem {
-  background-color: brown;
-}
-
 /* Photo Gallery leyout responsive with css grid */
 .gallery-container {
   display: grid;
