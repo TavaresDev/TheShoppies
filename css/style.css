@@ -1,0 +1,24 @@
+*{
+	box-sizing:border-box;
+}
+body{
+  font: 1.3em sans-serif;
+}
+
+
+
+.itemChecked {
+  text-decoration: line-through;
+  background-color: gray;
+}
+.thisItem {
+  background-color: brown;
+}
+
+/* Photo Gallery leyout responsive with css grid */
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap:1rem; 
+  /* padding: 1rem; */
+}
