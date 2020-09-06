@@ -18,7 +18,8 @@ class UI {
     static searchItem(inputValue) {
         // size of the query to be shown
         let size = 5;
-        fetch(`http://www.omdbapi.com/?s=${inputValue}&apikey=8a2a252`)
+        const apiCall = `http://www.omdbapi.com/?s=${inputValue}&apikey=8a2a252`;
+        fetch(apiCall)
             .then(response => {
                 return response.json();
             })
@@ -134,7 +135,7 @@ class Store {
 // ----------------------- Declararions  -----------------------//
 // Declaration 
 const searchBtn = document.getElementById('searchBtn');
-const searchList = document.getElementById('resultList')
+const searchList = document.getElementById('resultList');
 
 const todoList = document.getElementById('todoList');
 
@@ -150,6 +151,12 @@ searchBtn.addEventListener('click', (e) => {
     e.preventDefault();
     // get name of tudo item
     let inputValue = document.getElementById('searchInput').value;
+    //validation
+    if (inputValue == ""){
+        //todo new ui
+        alert("Name must be filled out");
+        return false;
+    }
     //Call the API
     UI.searchItem(inputValue)
 
