@@ -18,7 +18,7 @@ class UI {
     static searchItem(inputValue) {
         // size of the query to be shown
         let size = 5;
-        const apiCall = `http://www.omdbapi.com/?s=${inputValue}&apikey=8a2a252`;
+        const apiCall = `https://www.omdbapi.com/?s=${inputValue}&apikey=8a2a252`;
         fetch(apiCall)
             .then(response => {
                 return response.json();
