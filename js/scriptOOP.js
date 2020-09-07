@@ -12,9 +12,11 @@ class UI {
 
     static displayItems() {
         const items = Store.getItems();
-        items.forEach((item) => UI.addItemToList(item));
-    }
 
+        items.forEach((item) => UI.addItemToList(item));
+
+        
+    }
        static addItemToList(item) {
         // showing a diferent way to create elements
         // create li
@@ -58,6 +60,10 @@ class UI {
 
     static clearField() {
         searchInput.value = '';
+
+    }
+    static clearSearch() {
+        searchList.innerHTML = ""
 
     }
 
@@ -162,14 +168,13 @@ const nominationList = document.getElementById('nominationList');
 document.addEventListener("DOMContentLoaded", UI.displayItems);
 
 
-// Events on the button to add items
+// Events on the Search button
 searchBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    // get name of tudo item
+    // get name of the item
     let inputValue = document.getElementById('searchInput').value;
     //validation
     if (inputValue == ""){
-        //todo new ui
         UI.showAlert("Movie name must be filled out", "info");
         return false;
     }
@@ -187,33 +192,44 @@ searchBtn.addEventListener('click', (e) => {
 });
 
 
-//Event on the List to call: remove item and checkbox
+//Event to add Movie to Nomination List
 searchList.addEventListener('click', (e) => {
 
     if (e.target.nodeName == "BUTTON") {
-        console.log(e.target.previousElementSibling.textContent);
-        // console.log(e.target)
+        // console.log(e.target.previousElementSibling.textContent);
+        let movieName = e.target.previousElementSibling.textContent
 
+        UI.clearSearch()
 
+        itemsArray = Store.getItems()
+        
+        console.log(itemsArray)
+        console.log(itemsArray.length)
+     
+        if(itemsArray.length == 5){
+                UI.showAlert("You have Nominate 5 Movies", "info")
+                return
+        }
+                
         //instanciate a item
-        const item = new Item(e.target.previousElementSibling.textContent);
-
-        // if(list< 5){
-        //     do it
-        // }else{
-        //     You have chosen 5 
-        // }
-
+        const item = new Item(movieName);
         // //add item to UI (create)
         UI.addItemToList(item);
         // //add to store
         Store.addItem(item);
 
-
-        // UI.deleteItem(e.target);
-        // Store.removeItem(e.target.previousElementSibling.textContent);
     }
 
 });
 
 
+//Event on the List to Remove nominationList
+nominationList.addEventListener('click', (e) => {
+
+    if (e.target.nodeName == "BUTTON") {
+        UI.deleteItem(e.target);
+        Store.removeItem(e.target.previousElementSibling.textContent);
+    }
+
+
+});
