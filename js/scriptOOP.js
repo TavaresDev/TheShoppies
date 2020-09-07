@@ -98,7 +98,7 @@ class Api {
                     console.log(item);
                     let serchItemList = `
                         <div class="card"> 
-                            <img class="card-img-top" src="${item.Poster}" alt="${item.Title} Poster">
+                            <img class="card-img-top" src="${item.Poster != 'N/A' ? item.Poster :'noPoster2.png'}" alt="${item.Title} Poster">
                             <div class="card-body">
                                 <p class="card-text">${item.Title}  (${item.Year})  </p>
                                 <button id="" class="btn btn-secondary btn-block"> Add </button>
