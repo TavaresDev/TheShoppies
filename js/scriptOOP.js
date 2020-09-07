@@ -72,7 +72,7 @@ class UI {
 class Api {
     static searchItem(inputValue) {
         // size of the query to be shown
-        let size = 5;
+        let size = 10;
         const apiURL = `https://www.omdbapi.com/?s=${inputValue}&type=movie&page=1&apikey=8a2a252`;
         fetch(apiURL)
             .then(response => {
@@ -99,9 +99,10 @@ class Api {
                     let serchItemList = `
                         <div class="card"> 
                             <img class="card-img-top" src="${item.Poster != 'N/A' ? item.Poster :'noPoster.png'}" alt="${item.Title} Poster">
-                            <div class="card-body">
+                            <div class="card-body d-flex justify-content-end h-100 flex-column ">
                                 <p class="card-text">${item.Title}  (${item.Year})  </p>
-                                <button id="" class="btn btn-secondary btn-block"> Add </button>
+                                
+                                <button id="" class="btn btn-secondary mt-autox btn-block"> Add </button>
                             </div>
                         </div>     
                         `
