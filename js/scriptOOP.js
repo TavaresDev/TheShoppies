@@ -28,7 +28,7 @@ class UI {
         itemText.textContent = item.name;
 
         // create button
-        let itemBtn = document.createElement('button');
+        let itemBtn = document.createElement('button')
         itemBtn.innerText = 'Delete';
         itemBtn.classList.add("itemDeleteBtn", "btn", "btn-danger", "btn-sm");
 
@@ -36,7 +36,7 @@ class UI {
         todoItem.appendChild(itemBtn);
 
         // append item to the to do list
-        todoList.appendChild(todoItem);
+        nominationList.appendChild(todoItem);
     }
 
     static deleteItem(el) {
@@ -45,15 +45,15 @@ class UI {
         }
     }
     static showAlert(message, className){
-		const div = document.createElement('div')
+		const div = document.createElement('div');
 		div.className = `alert alert-${className}`
-        div.appendChild(document.createTextNode(message))
+        div.appendChild(document.createTextNode(message));
         
-		const container = document.querySelector('.container')
-		const form = document.querySelector('#book-form')
-		container.insertBefore(div, form)
-		// Make vanish in 3 sec
-		setTimeout(() => document.querySelector('.alert').remove(),3000)
+		const container = document.querySelector('.container');
+		const form = document.querySelector('#form');
+		container.insertBefore(div, form);
+		// Make desapear in 3 sec
+		setTimeout(() => document.querySelector('.alert').remove(),3000);
 	}
 
     static clearField() {
@@ -62,23 +62,23 @@ class UI {
     }
 
 }
-class Api {
 
+class Api {
     static searchItem(inputValue) {
         // size of the query to be shown
         let size = 5;
-        const apiCall = `https://www.omdbapi.com/?s=${inputValue}&type=movie&page=1&apikey=8a2a252`;
-        fetch(apiCall)
+        const apiURL = `https://www.omdbapi.com/?s=${inputValue}&type=movie&page=1&apikey=8a2a252`;
+        fetch(apiURL)
             .then(response => {
                 return response.json();
             })
             .then(data => {
                 console.log(data);
                 if(data.Error == "Too many results."){
-                    UI.showAlert("Too many results. Try a diferent search", "danger")
+                    UI.showAlert("Too many results. Try a diferent search", "danger");
                     return
                 }else if(data.Error == "Movie not found!"){
-                    UI.showAlert("Sorry, Movie not found", "danger")
+                    UI.showAlert("Sorry, Movie not found", "danger");
                     return
                 }
      
@@ -153,7 +153,7 @@ class Store {
 const searchBtn = document.getElementById('searchBtn');
 const searchList = document.getElementById('resultList');
 
-const todoList = document.getElementById('todoList');
+const nominationList = document.getElementById('nominationList');
 
 
 // ----------------------- Events  -----------------------//
@@ -191,7 +191,7 @@ searchBtn.addEventListener('click', (e) => {
 searchList.addEventListener('click', (e) => {
 
     if (e.target.nodeName == "BUTTON") {
-        console.log(e.target.previousElementSibling.textContent)
+        console.log(e.target.previousElementSibling.textContent);
         // console.log(e.target)
 
 
