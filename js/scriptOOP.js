@@ -15,57 +15,8 @@ class UI {
         items.forEach((item) => UI.addItemToList(item));
     }
 
-    static searchItem(inputValue) {
-        // size of the query to be shown
-        let size = 5;
-        const apiCall = `https://www.omdbapi.com/?s=${inputValue}&type=movie&page=1&apikey=8a2a252`;
-        fetch(apiCall)
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                console.log(data);
-                if(data.Error == "Too many results."){
-                    UI.showAlert("Too many results. Try a diferent search", "danger")
-                    return
-                }else if(data.Error == "Movie not found!"){
-                    UI.showAlert("Sorry, Movie not found", "danger")
-                    return
-                }
-     
-                searchList.innerHTML = ""
-                // searchList.parentElement.innerHTML = ""
-                // searchList.insertAdjacentHTML("beforebegin", "<h2>Results:</h2>"); 
-                // searchList.innerHTML = "<h2>Results:</h2>"
-
-                data.Search.slice(0, size).map(item => {
-
-                    console.log(item);
-                    let serchItemList = `
-                <div class="card"> 
-					<img class="card-img-top" src="${item.Poster}" alt="${item.Title} Poster">
-					<div class="card-body">
-						<p class="card-text">${item.Title}  (${item.Year})   </p>
-						<button id="" class="btn btn-secondary btn-block"> Add </button>
-					</div>
-				</div>     
-
-                `
-
-                    searchList.innerHTML += serchItemList
-
-                })
-            })
-            .catch(error => {
-                console.log("error");
-                console.error(error);
-
-            })
-    }
-
-    static addItemToList(item) {
+       static addItemToList(item) {
         // showing a diferent way to create elements
-
         // create li
         let todoItem = document.createElement('li');
         todoItem.classList.add("list-group-item", "d-flex", "justify-content-between");
@@ -105,16 +56,57 @@ class UI {
 		setTimeout(() => document.querySelector('.alert').remove(),3000)
 	}
 
-    static playSound() {
-        const audio = document.getElementById('soundBell');
-        // set the audio to star from begin
-        audio.currentTime = 0;
-        audio.play();
+    static clearField() {
+        searchInput.value = '';
+
     }
 
-    static clearFields() {
-        todoInput.value = '';
+}
+class Api {
 
+    static searchItem(inputValue) {
+        // size of the query to be shown
+        let size = 5;
+        const apiCall = `https://www.omdbapi.com/?s=${inputValue}&type=movie&page=1&apikey=8a2a252`;
+        fetch(apiCall)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                if(data.Error == "Too many results."){
+                    UI.showAlert("Too many results. Try a diferent search", "danger")
+                    return
+                }else if(data.Error == "Movie not found!"){
+                    UI.showAlert("Sorry, Movie not found", "danger")
+                    return
+                }
+     
+                searchList.innerHTML = ""
+                // searchList.parentElement.innerHTML = ""
+                // searchList.insertAdjacentHTML("beforebegin", "<h2>Results:</h2>"); 
+                // searchList.innerHTML = "<h2>Results:</h2>"
+
+                data.Search.slice(0, size).map(item => {
+
+                    console.log(item);
+                    let serchItemList = `
+                        <div class="card"> 
+                            <img class="card-img-top" src="${item.Poster}" alt="${item.Title} Poster">
+                            <div class="card-body">
+                                <p class="card-text">${item.Title}  (${item.Year})  </p>
+                                <button id="" class="btn btn-secondary btn-block"> Add </button>
+                            </div>
+                        </div>     
+                        `
+                    searchList.innerHTML += serchItemList
+                })
+            })
+            .catch(error => {
+                console.log("error");
+                console.error(error);
+
+            })
     }
 
 }
@@ -182,7 +174,7 @@ searchBtn.addEventListener('click', (e) => {
         return false;
     }
     //Call the API
-    UI.searchItem(inputValue)
+    Api.searchItem(inputValue)
 
     // //instanciate a item
     // const item = new Item(inputValue);
@@ -221,29 +213,7 @@ searchList.addEventListener('click', (e) => {
         // UI.deleteItem(e.target);
         // Store.removeItem(e.target.previousElementSibling.textContent);
     }
-    if (e.target.nodeName == "INPUT") {
-        UI.checkItem(e.target);
-        UI.plTaySound();
-        Store.removeItem(e.target.nextElementSibling.textContent);
-
-    }
 
 });
 
-//to delete
-//Event on the List to call: remove item and checkbox
-todoList.addEventListener('click', (e) => {
-
-    if (e.target.nodeName == "BUTTON") {
-        UI.deleteItem(e.target);
-        Store.removeItem(e.target.previousElementSibling.textContent);
-    }
-    if (e.target.nodeName == "INPUT") {
-        UI.checkItem(e.target);
-        UI.plTaySound();
-        Store.removeItem(e.target.nextElementSibling.textContent);
-
-    }
-
-});
 
