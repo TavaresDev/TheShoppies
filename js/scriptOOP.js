@@ -18,16 +18,24 @@ class UI {
     static searchItem(inputValue) {
         // size of the query to be shown
         let size = 5;
-        const apiCall = `https://www.omdbapi.com/?s=${inputValue}&apikey=8a2a252`;
+        const apiCall = `https://www.omdbapi.com/?s=${inputValue}&type=movie&page=1&apikey=8a2a252`;
         fetch(apiCall)
             .then(response => {
                 return response.json();
             })
             .then(data => {
                 console.log(data);
-                console.log(data.Search);
+                if(data.Error == "Too many results."){
+                    UI.showAlert("Too many results. Try a diferent search", "danger")
+                    return
+                }else if(data.Error == "Movie not found!"){
+                    UI.showAlert("Sorry, Movie not found", "danger")
+                    return
+                }
+     
                 searchList.innerHTML = ""
-                searchList.insertAdjacentHTML("beforebegin", "<h2>Results:</h2>"); 
+                // searchList.parentElement.innerHTML = ""
+                // searchList.insertAdjacentHTML("beforebegin", "<h2>Results:</h2>"); 
                 // searchList.innerHTML = "<h2>Results:</h2>"
 
                 data.Search.slice(0, size).map(item => {
@@ -47,7 +55,12 @@ class UI {
                     searchList.innerHTML += serchItemList
 
                 })
-            });
+            })
+            .catch(error => {
+                console.log("error");
+                console.error(error);
+
+            })
     }
 
     static addItemToList(item) {
@@ -80,6 +93,17 @@ class UI {
             el.parentElement.remove();
         }
     }
+    static showAlert(message, className){
+		const div = document.createElement('div')
+		div.className = `alert alert-${className}`
+        div.appendChild(document.createTextNode(message))
+        
+		const container = document.querySelector('.container')
+		const form = document.querySelector('#book-form')
+		container.insertBefore(div, form)
+		// Make vanish in 3 sec
+		setTimeout(() => document.querySelector('.alert').remove(),3000)
+	}
 
     static playSound() {
         const audio = document.getElementById('soundBell');
@@ -119,7 +143,7 @@ class Store {
     static removeItem(name) {
         const items = Store.getItems();
 
-        //iterate thu list to find and delete the right one
+        //iterate list to find and delete the right one
         items.forEach((item, index) => {
             if (item.name === name) {
                 //remove one item from the list
@@ -154,7 +178,7 @@ searchBtn.addEventListener('click', (e) => {
     //validation
     if (inputValue == ""){
         //todo new ui
-        alert("Name must be filled out");
+        UI.showAlert("Movie name must be filled out", "info");
         return false;
     }
     //Call the API
