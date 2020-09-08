@@ -141,11 +141,11 @@ class Store {
     static getItems() {
         let items;
         //localStorege.getItem to get things from local
-        if (localStorage.getItem('items') === null) {
+        if (localStorage.getItem('movieItems') === null) {
             items = [];
         } else {
             //local storage store as a string. so we need to parse
-            items = JSON.parse(localStorage.getItem('items'));
+            items = JSON.parse(localStorage.getItem('movieItems'));
         }
         return items;
     }
@@ -153,7 +153,7 @@ class Store {
         const items = Store.getItems();
         items.push(item);
         //stringiy to be able to add to local storage
-        localStorage.setItem('items', JSON.stringify(items));
+        localStorage.setItem('movieItems', JSON.stringify(items));
     }
 
     static removeItem(name) {
@@ -167,7 +167,7 @@ class Store {
             }
         });
         //add the new array of items to the the local storage
-        localStorage.setItem('items', JSON.stringify(items));
+        localStorage.setItem('movieItems', JSON.stringify(items));
 
     }
 }
