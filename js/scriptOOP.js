@@ -185,7 +185,8 @@ const infoIcon = document.getElementById('infoIcon');
 
 //Event: First event called to update the list from the local storage
 document.addEventListener("DOMContentLoaded", UI.displayItems);
-document.addEventListener("click", UI.displayItems);
+window.addEventListener("load", UI.displayItems);
+// document.addEventListener("click", UI.displayItems);
 
 //Event: info mouseover
 infoIcon.addEventListener("mouseenter", UI.infoShow);
