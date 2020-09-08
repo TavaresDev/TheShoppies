@@ -188,6 +188,8 @@ if (document.readyState === "loading") {
 
 //Event: info mouseover
 infoIcon.addEventListener("mouseenter", UI.infoShow);
+//for mobile
+infoIcon.addEventListener("touchenter ", UI.infoShow);
 
 
 // Events on the Search button
