@@ -13,13 +13,11 @@ class UI {
 
     static displayItems() {
         const items = Store.getItems();
-
         items.forEach((item) => UI.addItemToList(item));
-
         
     }
        static addItemToList(item) {
-        // showing a diferent way to create elements
+        // Using a diferent way to create elements
         // create li
         let todoItem = document.createElement('li');
         todoItem.classList.add("list-group-item", "d-flex");
@@ -35,7 +33,6 @@ class UI {
         itemYear.classList.add("ml-2");
         // itemText.textContent = inputValue;
         itemYear.textContent = item.year;
-
 
         // create button
         let itemBtn = document.createElement('button')
@@ -76,7 +73,6 @@ class UI {
 
     }
     static infoShow(){
-        console.log('hover')
         let howToUse = document.getElementById('howToUse');
         howToUse.classList.toggle("d-none");
         
@@ -94,7 +90,7 @@ class Api {
                 return response.json();
             })
             .then(data => {
-                console.log(data);
+                // console.log(data);
                 if(data.Error == "Too many results."){
                     UI.showAlert("Too many results. Try a diferent key word", "danger");
                     return
@@ -104,13 +100,10 @@ class Api {
                 }
      
                 searchList.innerHTML = ""
-                // searchList.parentElement.innerHTML = ""
-                // searchList.insertAdjacentHTML("beforebegin", "<h2>Results:</h2>"); 
-                // searchList.innerHTML = "<h2>Results:</h2>"
 
                 data.Search.slice(0, size).map(item => {
 
-                    console.log(item);
+                    // console.log(item);
                     let serchItemList = `
                         <div class="card"> 
                             <img class="card-img-top" src="${item.Poster != 'N/A' ? item.Poster :'noPoster.png'}" alt="${item.Title} Poster">
@@ -172,8 +165,8 @@ class Store {
     }
 }
 
-// ----------------------- Declararions  -----------------------//
-// Declaration 
+// ----------------------- Declarations  -----------------------//
+
 const searchBtn = document.getElementById('searchBtn');
 const searchList = document.getElementById('resultList');
 
@@ -184,14 +177,13 @@ const infoIcon = document.getElementById('infoIcon');
 // ----------------------- Events  -----------------------//
 
 //Event: First event called to update the list from the local storage
-// `DOMContentLoaded` may fire before your script has a chance to run, so check before adding a listener
+// DOMContentLoaded may fire before script run, so check before adding a listener
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", UI.displayItems);
-} else {  // `DOMContentLoaded` already fired
+} else {  
     UI.displayItems();
 }
-// document.addEventListener("DOMContentLoaded", UI.displayItems);
-// window.addEventListener("load", UI.displayItems);
+
 
 
 //Event: info mouseover
@@ -211,14 +203,6 @@ searchBtn.addEventListener('click', (e) => {
     //Call the API
     Api.searchItem(inputValue)
     
-    // //instanciate a item
-    // const item = new Item(inputValue);
-
-    // //add item to UI (create)
-    // UI.addItemToList(item);
-    // //add to store
-    // Store.addItem(item);
-
 });
 
 
@@ -226,20 +210,16 @@ searchBtn.addEventListener('click', (e) => {
 searchList.addEventListener('click', (e) => {
 
     if (e.target.nodeName == "BUTTON") {
-        // console.log(e.target.previousElementSibling.textContent);
-        console.log(e.target.previousElementSibling.firstElementChild.textContent)
+
         let movieName = e.target.previousElementSibling.firstElementChild.textContent
         let movieYear = e.target.previousElementSibling.lastElementChild.textContent
-
-        itemsArray = Store.getItems()
         
-        console.log(itemsArray)
-        console.log(itemsArray.length)
-     
+        itemsArray = Store.getItems()
+        //check the amout of movies
         if(itemsArray.length == 4){
-                UI.showAlert("Congratulation, You have nominated five Movies", "success")
-                  //clean seachList
-                UI.clearSearch()
+            UI.showAlert("Congratulation, You have nominated five Movies", "success")
+                //clean seachList
+            UI.clearSearch()
                 
         }else if(itemsArray.length >= 5){
             UI.showAlert("You have already nominated five Movies", "info")
@@ -250,6 +230,7 @@ searchList.addEventListener('click', (e) => {
         //Disable add btn
         e.target.classList.add("disabled")
         e.target.setAttribute("disabled", true);
+
         //instanciate a item
         const item = new Item(movieName, movieYear);
         // //add item to UI (create)
