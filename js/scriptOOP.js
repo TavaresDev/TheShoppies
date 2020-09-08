@@ -184,9 +184,15 @@ const infoIcon = document.getElementById('infoIcon');
 // ----------------------- Events  -----------------------//
 
 //Event: First event called to update the list from the local storage
-document.addEventListener("DOMContentLoaded", UI.displayItems);
-window.addEventListener("load", UI.displayItems);
-// document.addEventListener("click", UI.displayItems);
+// `DOMContentLoaded` may fire before your script has a chance to run, so check before adding a listener
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", UI.displayItems);
+} else {  // `DOMContentLoaded` already fired
+    UI.displayItems();
+}
+// document.addEventListener("DOMContentLoaded", UI.displayItems);
+// window.addEventListener("load", UI.displayItems);
+
 
 //Event: info mouseover
 infoIcon.addEventListener("mouseenter", UI.infoShow);
