@@ -66,6 +66,12 @@ class UI {
         searchList.innerHTML = ""
 
     }
+    static infoShow(){
+        console.log('hover')
+        let howToUse = document.getElementById('howToUse');
+        howToUse.classList.toggle("d-none");
+        
+    }
 
 }
 
@@ -81,7 +87,7 @@ class Api {
             .then(data => {
                 console.log(data);
                 if(data.Error == "Too many results."){
-                    UI.showAlert("Too many results. Try a diferent search", "danger");
+                    UI.showAlert("Too many results. Try a diferent key word", "danger");
                     return
                 }else if(data.Error == "Movie not found!"){
                     UI.showAlert("Sorry, Movie not found", "danger");
@@ -161,12 +167,16 @@ const searchBtn = document.getElementById('searchBtn');
 const searchList = document.getElementById('resultList');
 
 const nominationList = document.getElementById('nominationList');
+const infoIcon = document.getElementById('infoIcon');
 
 
 // ----------------------- Events  -----------------------//
 
 //Event: First event called to update the list from the local storage
 document.addEventListener("DOMContentLoaded", UI.displayItems);
+
+//Event: info mouseover
+infoIcon.addEventListener("mouseenter", UI.infoShow);
 
 
 // Events on the Search button
@@ -208,7 +218,7 @@ searchList.addEventListener('click', (e) => {
         console.log(itemsArray.length)
      
         if(itemsArray.length == 5){
-                UI.showAlert("You have Nominate 5 Movies", "info")
+                UI.showAlert("Congratulation, You have nominated five Movies", "success")
                 return
         }
                 
