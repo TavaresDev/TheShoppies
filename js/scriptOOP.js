@@ -2,8 +2,9 @@
 
 // Item class to be instanciated:
 class Item {
-    constructor(name) {
+    constructor(name, year) {
         this.name = name;
+        this.year = year;
     }
 }
 
@@ -21,20 +22,28 @@ class UI {
         // showing a diferent way to create elements
         // create li
         let todoItem = document.createElement('li');
-        todoItem.classList.add("list-group-item", "d-flex", "justify-content-between");
+        todoItem.classList.add("list-group-item", "d-flex");
 
         // create text 
         let itemText = document.createElement('p');
         itemText.classList.add("m-0");
         // itemText.textContent = inputValue;
         itemText.textContent = item.name;
+ 
+        // create Year 
+        let itemYear = document.createElement('p');
+        itemYear.classList.add("ml-2");
+        // itemText.textContent = inputValue;
+        itemYear.textContent = item.year;
+
 
         // create button
         let itemBtn = document.createElement('button')
         itemBtn.innerText = 'Delete';
-        itemBtn.classList.add("itemDeleteBtn", "btn", "btn-danger", "btn-sm");
+        itemBtn.classList.add("itemDeleteBtn", "btn", "btn-danger", "btn-sm", "ml-auto");
 
         todoItem.appendChild(itemText);
+        todoItem.appendChild(itemYear);
         todoItem.appendChild(itemBtn);
 
         // append item to the to do list
@@ -106,9 +115,11 @@ class Api {
                         <div class="card"> 
                             <img class="card-img-top" src="${item.Poster != 'N/A' ? item.Poster :'noPoster.png'}" alt="${item.Title} Poster">
                             <div class="card-body d-flex justify-content-end h-100 flex-column ">
-                                <p class="card-text">${item.Title}  (${item.Year})  </p>
-                                
-                                <button id="" class="btn btn-secondary mt-autox btn-block"> Add </button>
+                            <div> 
+                                <p class="card-text d-inline">${item.Title}</p>
+                                <p class="card-text d-inline">(${item.Year}) </p>
+                            </div>
+                                <button id="" class="btn btn-secondary mt-2 btn-block"> Nominate  </button>
                             </div>
                         </div>     
                         `
@@ -147,7 +158,7 @@ class Store {
 
     static removeItem(name) {
         const items = Store.getItems();
-
+          
         //iterate list to find and delete the right one
         items.forEach((item, index) => {
             if (item.name === name) {
@@ -191,7 +202,7 @@ searchBtn.addEventListener('click', (e) => {
     }
     //Call the API
     Api.searchItem(inputValue)
-
+    
     // //instanciate a item
     // const item = new Item(inputValue);
 
@@ -208,22 +219,31 @@ searchList.addEventListener('click', (e) => {
 
     if (e.target.nodeName == "BUTTON") {
         // console.log(e.target.previousElementSibling.textContent);
-        let movieName = e.target.previousElementSibling.textContent
-
-        UI.clearSearch()
+        console.log(e.target.previousElementSibling.firstElementChild.textContent)
+        let movieName = e.target.previousElementSibling.firstElementChild.textContent
+        let movieYear = e.target.previousElementSibling.lastElementChild.textContent
 
         itemsArray = Store.getItems()
         
         console.log(itemsArray)
         console.log(itemsArray.length)
      
-        if(itemsArray.length == 5){
+        if(itemsArray.length == 4){
                 UI.showAlert("Congratulation, You have nominated five Movies", "success")
-                return
-        }
+                  //clean seachList
+                UI.clearSearch()
                 
+        }else if(itemsArray.length >= 5){
+            UI.showAlert("You have already nominated five Movies", "info")
+            //clean seachList
+            UI.clearSearch()
+            return
+        }
+        //Disable add btn
+        e.target.classList.add("disabled")
+        e.target.setAttribute("disabled", true);
         //instanciate a item
-        const item = new Item(movieName);
+        const item = new Item(movieName, movieYear);
         // //add item to UI (create)
         UI.addItemToList(item);
         // //add to store
@@ -239,7 +259,8 @@ nominationList.addEventListener('click', (e) => {
 
     if (e.target.nodeName == "BUTTON") {
         UI.deleteItem(e.target);
-        Store.removeItem(e.target.previousElementSibling.textContent);
+        Store.removeItem(e.target.previousElementSibling.previousElementSibling.textContent);
+
     }
 
 
